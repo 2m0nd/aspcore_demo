@@ -1,0 +1,139 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Биржа пряников 2.0</title>
+
+    <!-- Bootstrap -->
+    <link href="lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+    <link href="lib/bootstrap/dist/css/bootstrap-theme.css" rel="stylesheet">
+</head>
+<body>
+
+
+    <div class="container">
+
+        <div class="page-header">
+            <h1>Биржа пряников 2.0</h1>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <!--ko template: {name: 'editor-template', data: SaleViewModel}-->
+                <!--/ko-->
+            </div>
+            <div class="col-md-6">
+                <!--ko template: {name: 'editor-template', data: PurchaseViewModel}-->
+                <!--/ko-->
+            </div>
+        </div>
+        
+
+        <hr />
+        <div class="row">
+            <h4>Завершенные сделки</h4>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>№</th>
+                        <th>Выполнено</th>
+                        <th>Дата К*</th>
+                        <th>Дата П*</th>
+                        <th>Цена</th>
+                        <th>Кол-во</th>
+                        <th>Email К*</th>
+                        <th>Email П*</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!--ko foreach: RegisteredItems-->
+                    <tr>
+                        <td data-bind="text: $index() + 1"></td>
+                        <td data-bind="text: CreatedAt"></td>
+                        <td data-bind="text: SaleCreatedAt"></td>
+                        <td data-bind="text: PurchaseCreatedAt"></td>
+                        <td data-bind="text: Amount"></td>
+                        <td data-bind="text: Count"></td>
+                        <td data-bind="text: SaleEmail"></td>
+                        <td data-bind="text: PurchaseEmail"></td>
+                    </tr>
+                    <!--/ko-->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+<script src="lib/requirejs/require.js"></script>
+    
+<script type="text/javascript">
+
+    require.config({
+        baseUrl: '/js/TypeScriptBuild',
+        paths: {
+            "jquery": '/lib/jquery/dist/jquery',
+            "knockout": '/lib/knockout/dist/knockout',
+            "knockout.mapping": '/lib/knockout.mapping/knockout.mapping.js'
+        }
+    });
+
+    require(['knockout','ExchangeApplication'], function (ko, app) {
+        var appViewModel = new app();
+        appViewModel.initialize();
+        ko.applyBindings(appViewModel);
+    });
+
+</script>
+    
+<script type="text/html" id="editor-template">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title" data-bind="text: Title"></h3>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="form-group">
+                        <input type="email" class="form-control" data-bind="value: Amount" placeholder="Цена за шт.">
+                    </div>
+                    <div class="form-group">
+                        <input type="email" class="form-control" data-bind="value: Count" placeholder="Кол-во">
+                    </div>
+                    <div class="form-group">
+                        <input type="email" class="form-control" data-bind="value: Email" placeholder="Email">
+                    </div>
+                    <div>
+                        <button class="btn btn-primary" data-bind="click: function(){$root.addNewExchangeGroup($data.IsSale())}">OK</button>
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <h4 data-bind="text: OrderTitle"></h4>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>№</th>
+                    <th>Цена</th>
+                    <th>Кол-во</th>
+                    <th>Email</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <!--ko foreach: Items-->
+                    <tr>
+                        <td data-bind="text: $index() + 1"></td>
+                        <td data-bind="text: Amount"></td>
+                        <td data-bind="text: Count"></td>
+                        <td data-bind="text: Email"></td>
+                    </tr>
+                    <!--/ko-->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</script>
+
+</body>
+</html>
