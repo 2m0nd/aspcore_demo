@@ -6,3 +6,6 @@
 5. dotnet publish
 6. dotnet run
 7. open  http://localhost:5000
+
+
+or view http://2m0nd.ru/ or http://52.232.30.174/
