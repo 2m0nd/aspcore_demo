@@ -8,7 +8,7 @@ namespace Bit66.Exchange.Services
     public class ExchangeServiceMappingProfile : Profile
     {
         public override string ProfileName { get; } = "ExchangeServiceMappingProfile";
-
+        const string DateFormat = "dd.MM.yyyy HH:mm:ss.ff";
         public ExchangeServiceMappingProfile()
         {
             CreateMap<ExchangeGroup, ExchangeItemsGroupDto>()
@@ -18,9 +18,9 @@ namespace Bit66.Exchange.Services
                 .ForMember(t => t.Email, o => o.MapFrom(s => s.Email));
             
             CreateMap<ExchangeRegistrationGroup, RegistrationGroupDto>()
-                .ForMember(t => t.CreatedAt, o => o.MapFrom(s => s.CreatedAt))
-                .ForMember(t => t.PurchaseCreatedAt, o => o.ResolveUsing(s => s.Items.First().PurchaseItem.Group.CreatedAt))
-                .ForMember(t => t.SaleCreatedAt, o => o.ResolveUsing(s => s.Items.First().SaleItem.Group.CreatedAt))
+                .ForMember(t => t.CreatedAt, o => o.MapFrom(s => s.CreatedAt.ToLocalTime().ToString(DateFormat)))
+                .ForMember(t => t.PurchaseCreatedAt, o => o.ResolveUsing(s => s.Items.First().PurchaseItem.Group.CreatedAt.ToLocalTime().ToString(DateFormat)))
+                .ForMember(t => t.SaleCreatedAt, o => o.ResolveUsing(s => s.Items.First().SaleItem.Group.CreatedAt.ToLocalTime().ToString(DateFormat)))
                 .ForMember(t => t.Amount, o => o.ResolveUsing(s => s.FactAmount))
                 .ForMember(t => t.Count, o => o.ResolveUsing(s => s.Items.Count))
                 .ForMember(t => t.PurchaseEmail, o => o.ResolveUsing(s => s.Items.First().PurchaseItem.Group.Email))
