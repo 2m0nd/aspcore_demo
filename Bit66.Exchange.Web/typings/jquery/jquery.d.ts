@@ -618,15 +618,6 @@ interface JQueryStatic {
      * @param settings A set of key/value pairs that configure the Ajax request. All settings are optional. A default can be set for any option with $.ajaxSetup().
      */
     ajax(settings: JQueryAjaxSettings): JQueryXHR;
-    ajax(settings: {
-        type: string;
-        url: string;
-        data: string;
-        contentType: string;
-        dataType: string;
-        success: (data: any) => void;
-        failure: (errMsg: any) => void
-    });
     /**
      * Perform an asynchronous HTTP (Ajax) request.
      *

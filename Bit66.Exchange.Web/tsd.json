@@ -17,6 +17,9 @@
     "knockout.mapping/knockout.mapping.d.ts": {
       "commit": "a9ded5b70ede34486731ef6c2e6865f5e9911fc3"
     },
+    "knockout.validation/knockout.validation.d.ts": {
+      "commit": "a9ded5b70ede34486731ef6c2e6865f5e9911fc3"
+    },
     "pathjs/pathjs.d.ts": {
       "commit": "f9694258d2d2923c4c185a7c8a64df1ce8b4baa8"
     },

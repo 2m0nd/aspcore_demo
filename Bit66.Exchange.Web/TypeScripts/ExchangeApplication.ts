@@ -1,5 +1,6 @@
 ﻿/// <reference path="../typings/knockout/knockout.d.ts" />
 /// <reference path="../typings/jquery/jquery.d.ts" />
+/// <reference path="../typings/knockout.validation/knockout.validation.d.ts" />
 
 import $ = require('jquery');
 import ko = require('knockout');
@@ -35,12 +36,20 @@ class ExcahngeApplication {
     }
 
     addNewExchangeGroup = (isSale: boolean) => {
+        
         var url = "/api/v1/Exchange/" + (isSale ? "AddNewSaleItem" : "AddNewPurchaiseItem");
         var vm = isSale ? this.SaleViewModel : this.PurchaseViewModel;
-        var model = ko.toJS(vm);
-        $.post(url, { model: model }, () => {
-            this.initialize();
-        });
+
+        if (vm.errors().length === 0) {
+            var model = ko.toJS(vm);
+            $.post(url, { model: model }, () => {
+                this.initialize();
+            });
+        }
+        else {
+            alert('Please check your submission.');
+            vm.errors.showAllMessages();
+        }
     }
 }
 
