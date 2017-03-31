@@ -52,6 +52,7 @@ namespace Bit66.Exchange.Web
             services.AddDbContext<ExchangeEntitiesContext>(options =>
                 {
                     options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+                    //options.UseInMemoryDatabase(databaseName: "fordemo");
                 }
             );
 
@@ -67,7 +68,10 @@ namespace Bit66.Exchange.Web
 
             app.UseMvc();
 
-            app.UseDefaultFiles();
+            var options = new DefaultFilesOptions();
+            options.DefaultFileNames.Clear();
+            options.DefaultFileNames.Add("Index.html");
+            app.UseDefaultFiles(options);
             app.UseStaticFiles();
         }
     }
