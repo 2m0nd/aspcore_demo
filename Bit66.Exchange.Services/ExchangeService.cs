@@ -126,28 +126,25 @@ namespace Bit66.Exchange.Services
             return dtoResult;
         }
 
-        public ExchangeItemsGroupDto[] GetSalesOrders()
+        public ExchangeItemsGroupDto[] GetOrders(ExchangeType type)
         {
             var result = _context.ExchangeGroups
-                .Where(x => x.Type == ExchangeType.Sale)
-                .Where(i=>i.Items.Any(x => x.RegistrationAsSale == null && x.RegistrationAsPurchase == null))
+                .Where(x => x.Type == type)
+                .Where(i => i.Items.Any(x => x.RegistrationAsSale == null && x.RegistrationAsPurchase == null))
                 .Include(x => x.Items)
                 .ToArray();
-            var dtoResult = _mapper.Map<ExchangeItemsGroupDto[]>(result.OrderByDescending(x=>x.CreatedAt));
+            var dtoResult = _mapper.Map<ExchangeItemsGroupDto[]>(result.OrderByDescending(x => x.CreatedAt));
             return dtoResult;
+        }
+
+        public ExchangeItemsGroupDto[] GetSalesOrders()
+        {
+            return GetOrders(ExchangeType.Sale);
         }
 
         public ExchangeItemsGroupDto[] GetPurchaseOrders()
         {
-            var result = _context
-                .ExchangeGroups
-                .Where(i => i.Items.Any(x => x.RegistrationAsSale == null && x.RegistrationAsPurchase == null))
-                .Where(x => x.Type == ExchangeType.Purchase)
-                .Include(x=>x.Items)
-                .ToArray();
-            
-            var dtoResult = _mapper.Map<ExchangeItemsGroupDto[]>(result.OrderByDescending(x => x.CreatedAt));
-            return dtoResult;
+            return GetOrders(ExchangeType.Purchase);
         }
     }
 }
