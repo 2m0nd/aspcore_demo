@@ -34,15 +34,15 @@ namespace Bit66.Exchange.Services
                 Email = item.Email
             };
             _context.ExchangeGroups.Add(group);
-            _context.SaveChanges();
+            
             for (int i = 0; i < item.Count; i++)
             {
                 _context.ExchangeItems.Add(new ExchangeItem(){GroupId = group.Id});
             }
 
-            _context.SaveChanges();
-
             InternalExchangeLogic(group);
+
+            _context.SaveChanges();
         }
 
         void InternalExchangeLogic(ExchangeGroup group)
@@ -112,7 +112,6 @@ namespace Bit66.Exchange.Services
                     }
                 }
             }
-            _context.SaveChanges();
         }
 
         public RegistrationGroupDto[] GetRegistrations()
